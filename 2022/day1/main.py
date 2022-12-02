@@ -13,7 +13,7 @@ class CalorieCounting:
 
         for line in lines:
             if line == "\n":
-                maxHeap.push(int(calories))
+                maxHeap.push(calories)
                 calories = 0
             else: 
                 calories += int(line)
