@@ -5,55 +5,32 @@ class RockPaperScissors:
         "Z" : 3
     }
 
-    # X --> rock
-    # Y --> paper
-    # Z --> scissors
-    def round_score(self, left: str, right: str) -> int:
-        if left == "A" and right == "X": # rock and rock
-            return 3
-        if left == "A" and right == "Y": # rock and paper
-            return 6
-        if left == "A" and right == "Z": # rock and scissors
-            return 0
-        if left == "B" and right == "X": # paper and rock
-            return 0
-        if left == "B" and right == "Y": # paper and paper
-            return 3
-        if left == "B" and right == "Z": # paper and scissors
-            return 6
-        if left == "C" and right == "X": # scissors and rock
-            return 6
-        if left == "C" and right == "Y": # scissors and paper
-            return 0
-        if left == "C" and right == "Z": # scissors and scissors
-            return 3
-        
-        return None
+    _positions = {
+        "A" : 0,
+        "B" : 1,
+        "C" : 2,
+        "X" : 0,
+        "Y" : 1,
+        "Z" : 2
+    }
 
-    # X --> lose
-    # Y --> draw
-    # Z --> win
+    _round_scores = [
+        [3,6,0],
+        [0,3,6],
+        [6,0,3]
+    ]
+
+    _actions = [
+        ["Z","X", "Y"],
+        ["X","Y", "Z"],
+        ["Y","Z", "X"]
+    ]
+    
+    def round_score(self, left: str, right: str) -> int:
+        return self._round_scores[self._positions.get(left)][self._positions.get(right)]
+
     def determine_action(self, left: str, right: str) -> str:
-        if left == "A" and right == "X": # rock and lose
-            return "Z" # scissors
-        if left == "A" and right == "Y": # rock and draw
-            return "X" # rock
-        if left == "A" and right == "Z": # rock and win
-            return "Y" # paper
-        if left == "B" and right == "X": # paper and lose
-            return "X"
-        if left == "B" and right == "Y": # paper and draw
-            return "Y"
-        if left == "B" and right == "Z": # paper and win
-            return "Z"
-        if left == "C" and right == "X": # scissors and lose
-            return "Y"
-        if left == "C" and right == "Y": # scissors and draw
-            return "Z"
-        if left == "C" and right == "Z": # scissors and win
-            return "X"
-        
-        return None
+        return self._actions[self._positions.get(left)][self._positions.get(right)]
         
     def run(self, filename: str) -> None:
         text_file = open(filename, "r")
