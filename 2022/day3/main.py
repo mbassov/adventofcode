@@ -1,6 +1,8 @@
 from itertools import islice
 import string
 
+from more_itertools import batched
+
 class Sack:
     _priorities =  string.ascii_lowercase + string.ascii_uppercase
 
@@ -22,7 +24,7 @@ class Sack:
 
     def run_part_two(self, filename: str) -> None:
         count = 0     
-        for line in self.batched(self.get_lines(filename), 3):
+        for line in batched(self.get_lines(filename), 3):
             one = set(list(line[0].rstrip()))
             two = set(list(line[1].rstrip()))
             three = set(list(line[2].rstrip()))         
@@ -33,16 +35,6 @@ class Sack:
 
     def get_priority(self, char: str) -> int:
         return self._priorities.index(char) + 1 # 1 base
-
-    #credit: https://docs.python.org/3/library/itertools.html 
-    def batched(self, iterable, n):
-        "Batch data into lists of length n. The last batch may be shorter."
-        # batched('ABCDEFG', 3) --> ABC DEF G
-        if n < 1:
-            raise ValueError('n must be at least one')
-        it = iter(iterable)
-        while (batch := list(islice(it, n))):
-            yield batch
             
 if __name__=="__main__":
     #elf = Sack().run_part_one("test.txt")

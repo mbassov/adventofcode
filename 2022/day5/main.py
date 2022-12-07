@@ -1,6 +1,8 @@
 from itertools import islice
 from typing import Tuple
 
+from more_itertools import batched
+
 class Supplies:
     def get_lines(self, filename: str) -> list:
         text_file = open(filename, "r")
@@ -38,7 +40,7 @@ class Supplies:
         
         for row in values:
             # handle the empty values on the row by taking 4 chars at a time
-            for i, one in enumerate(self.batched(list(row), 4)):
+            for i, one in enumerate(batched(list(row), 4)):
                 if one[1] == ' ':
                     continue
                 stacks[i+1].append(one[1])
@@ -86,15 +88,6 @@ class Supplies:
             result += v.pop()
         return result
         
-    def batched(self, iterable, n):
-        "Batch data into lists of length n. The last batch may be shorter."
-        # batched('ABCDEFG', 3) --> ABC DEF G
-        if n < 1:
-            raise ValueError('n must be at least one')
-        it = iter(iterable)
-        while (batch := list(islice(it, n))):
-            yield batch
-            
 if __name__=="__main__":
     #elf = Supplies().run_part_one("/Users/michael/code/adventofcode/2022/day5/test.txt")
     #elf = Supplies().run_part_two("/Users/michael/code/adventofcode/2022/day5/test.txt")
